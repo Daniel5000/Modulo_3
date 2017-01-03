@@ -8,16 +8,16 @@ angular.module('MenuCategoriesApp', [])
 .directive('foodListItems', FoodListItemsDirective);
 
 function FoodListItemsDirective() {
-  var ddo = {
-    templateUrl:'foodListItemsDirective.html',
-    scope: {
-      items: '<',
-      myTitle: '@title',
-      onRemove: '&'
-    }//,
-    //controller: FoodListItemsDirectiveController,
-    //controllerAs: 'list',
-  //  bindToController: true
+   var ddo = {
+     templateUrl:'foodListItemsDirective.html',
+     scope: {
+     items: '<',
+     myTitle: '@itemName',
+     onRemove: '&'
+     },
+    controller: FoodListItemsDirectiveController,
+    controllerAs: 'list',
+    bindToController: true
   };
 
   return ddo;
@@ -25,17 +25,18 @@ function FoodListItemsDirective() {
 
 function FoodListItemsDirectiveController() {
   var list = this;
+  list.myTitle='algo';
 
-  list.cookiesInList = function () {
-    for (var i = 0; i < list.items.length; i++) {
-      var name = list.items[i].name;
-      if (name.toLowerCase().indexOf("cookie") !== -1) {
-        return true;
-      }
-    }
+  // list.cookiesInList = function () {
+  //   for (var i = 0; i < list.items.length; i++) {
+  //     var name = list.items[i].name;
+  //     if (name.toLowerCase().indexOf("cookie") !== -1) {
+  //       return true;
+  //     }
+  //   }
 
-    return false;
-  };
+  //   return false;
+  // };
 }
 
 MenuCategoriesController.$inject = ['$filter','MenuCategoriesService'];
