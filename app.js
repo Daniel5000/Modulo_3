@@ -4,21 +4,56 @@
 angular.module('MenuCategoriesApp', [])
 .controller('MenuCategoriesController', MenuCategoriesController)
 .service('MenuCategoriesService', MenuCategoriesService)
-.constant('ApiBasePath', "http://davids-restaurant.herokuapp.com");
+.constant('ApiBasePath', "http://davids-restaurant.herokuapp.com")
+.directive('foodListItems', FoodListItemsDirective);
 
+function FoodListItemsDirective() {
+  var ddo = {
+    templateUrl:'foodListItemsDirective.html',
+    scope: {
+      items: '<',
+      myTitle: '@title',
+      onRemove: '&'
+    }//,
+    //controller: FoodListItemsDirectiveController,
+    //controllerAs: 'list',
+  //  bindToController: true
+  };
 
-MenuCategoriesController.$inject = ['MenuCategoriesService'];
-function MenuCategoriesController(MenuCategoriesService) {
+  return ddo;
+}
+
+function FoodListItemsDirectiveController() {
+  var list = this;
+
+  list.cookiesInList = function () {
+    for (var i = 0; i < list.items.length; i++) {
+      var name = list.items[i].name;
+      if (name.toLowerCase().indexOf("cookie") !== -1) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+}
+
+MenuCategoriesController.$inject = ['$filter','MenuCategoriesService'];
+function MenuCategoriesController($filter,MenuCategoriesService) {
   var menu = this;
+  var itemName='';
 
-  //var promise = MenuCategoriesService.getMenuCategories();
+  menu.getMenuCategories=function(Palabra){
 
-  promise.then(function (response) {
-    menu.categories = response.data;
-  })
-  .catch(function (error) {
-    console.log("Something went terribly wrong.");
-  });
+    var promise = MenuCategoriesService.getMenuCategories();
+      promise.then(function (response) {
+        menu.categories= $filter('filter')(response.data, Palabra);
+      })
+      .catch(function (error) {
+        console.log("Something went terribly wrong.");
+      });
+  }
+
 
   menu.logMenuItems = function (shortName) {
     var promise = MenuCategoriesService.getMenuForCategory(shortName);
@@ -34,8 +69,8 @@ function MenuCategoriesController(MenuCategoriesService) {
 }
 
 
-MenuCategoriesService.$inject = ['$http', 'ApiBasePath'];
-function MenuCategoriesService($http, ApiBasePath) {
+MenuCategoriesService.$inject = ['$http','ApiBasePath'];
+function MenuCategoriesService($http,ApiBasePath) {
   var service = this;
 
   service.getMenuCategories = function () {
