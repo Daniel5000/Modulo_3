@@ -11,7 +11,7 @@ MenuCategoriesController.$inject = ['MenuCategoriesService'];
 function MenuCategoriesController(MenuCategoriesService) {
   var menu = this;
 
-  var promise = MenuCategoriesService.getMenuCategories();
+  //var promise = MenuCategoriesService.getMenuCategories();
 
   promise.then(function (response) {
     menu.categories = response.data;

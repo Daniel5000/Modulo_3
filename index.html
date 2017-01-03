@@ -12,6 +12,8 @@
 
     <div ng-controller='MenuCategoriesController as menu'>
       <h3>List of Menu Categories</h3>
+      <input type="text" ng-model="menu.itemName" placeholder="Busca item">
+      <button ng-click="menu.getMenuCategories();">Narrow It Down For Me!</button>
       <ul>
         <li ng-repeat="category in menu.categories">
           (<a href="" ng-click="menu.logMenuItems(category.short_name);">{{ category.short_name }}</a>)
