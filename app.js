@@ -11,9 +11,8 @@ function FoodListItemsDirective() {
    var ddo = {
      templateUrl:'foodListItemsDirective.html',
      scope: {
-     items: '<',
-     myTitle: '@itemName',
-     onRemove: '&'
+     items:'@',
+     itemName:'@'
      },
     controller: FoodListItemsDirectiveController,
     controllerAs: 'list',
@@ -25,27 +24,15 @@ function FoodListItemsDirective() {
 
 function FoodListItemsDirectiveController() {
   var list = this;
-  list.myTitle='algo';
-
-  list.items = function (shortName) {
-    var promise = MenuCategoriesService.getMenuForCategory(shortName);
-
-    promise.then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  };
+  console.log(list.logMenuItems);
 }
 
 MenuCategoriesController.$inject = ['$filter','MenuCategoriesService'];
 function MenuCategoriesController($filter,MenuCategoriesService) {
   var menu = this;
-  var itemName='';
+  var itemName='esd';
 
   menu.getMenuCategories=function(Palabra){
-
     var promise = MenuCategoriesService.getMenuCategories();
       promise.then(function (response) {
         menu.categories= $filter('filter')(response.data, Palabra);
@@ -56,16 +43,16 @@ function MenuCategoriesController($filter,MenuCategoriesService) {
   }
 
 
-  // menu.logMenuItems = function (shortname) {
-  //   var promise = MenuCategoriesService.getMenuForCategory(shortname);
-  //
-  //   promise.then(function (response) {
-  //     console.log(response.data);
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   })
-  // };
+  menu.logMenuItems = function (shortname) {
+    var promise = MenuCategoriesService.getMenuForCategory(shortname);
+    menu.items=promise;
+    promise.then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  };
 
 }
 
