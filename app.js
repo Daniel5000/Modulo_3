@@ -27,16 +27,16 @@ function FoodListItemsDirectiveController() {
   var list = this;
   list.myTitle='algo';
 
-  // list.cookiesInList = function () {
-  //   for (var i = 0; i < list.items.length; i++) {
-  //     var name = list.items[i].name;
-  //     if (name.toLowerCase().indexOf("cookie") !== -1) {
-  //       return true;
-  //     }
-  //   }
+  list.items = function (shortName) {
+    var promise = MenuCategoriesService.getMenuForCategory(shortName);
 
-  //   return false;
-  // };
+    promise.then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  };
 }
 
 MenuCategoriesController.$inject = ['$filter','MenuCategoriesService'];
@@ -56,16 +56,16 @@ function MenuCategoriesController($filter,MenuCategoriesService) {
   }
 
 
-  menu.logMenuItems = function (shortName) {
-    var promise = MenuCategoriesService.getMenuForCategory(shortName);
-
-    promise.then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  };
+  // menu.logMenuItems = function (shortname) {
+  //   var promise = MenuCategoriesService.getMenuForCategory(shortname);
+  //
+  //   promise.then(function (response) {
+  //     console.log(response.data);
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   })
+  // };
 
 }
 

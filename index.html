@@ -20,11 +20,14 @@
           {{ category.name }}
         </li>
       </ul>
+
+      <food-List-Items id="list1" items="list.items" title="{{list.title}}" on-remove="list.removeItem(index)">
+       <span class="warning">WARNING! WARNING! {{list.warning}}</span>
+      </food-List-Items>
+
     </div>
 
-<food-List-Items id="list1" items="list.items" title="{{list.title}}" on-remove="list.removeItem(index)">
- <span class="warning">WARNING! WARNING! {{list.warning}}</span>
-</food-List-Items>
+
 
   </body>
 </html>
