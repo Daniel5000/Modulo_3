@@ -12,18 +12,22 @@
 
     <div ng-controller='MenuCategoriesController as list'>
       <h3>List of Menu Categories</h3>
+      <h1>Note que la siguiente busqueda se hara por ShortName Example: L Take L1,L2,L3</h1>
       <input type="text" ng-model="list.itemName" placeholder="Busca item">
-      <button ng-click="list.getMenuCategories(menu.itemName);">Narrow It Down For Me!</button>
+      <button ng-click="list.getMenuCategories(list.itemName);">Narrow It Down For Me!</button>
+      <div ng-if="list.categories==0">
+      Nothing found!
+      </div>
       <ul>
         <li ng-repeat="category in list.categories">
           (<a href="" ng-click="list.logMenuItems(category.short_name);">{{ category.short_name }}</a>)
           {{ category.name }}
+          <button ng-click="list.removeItem($index);">Deleteme</button>
         </li>
       </ul>
 
-      <food-List-Items myTitle="{{list.itemName}}" items="{{list.items}}">
-       <!-- <span class="warning">WARNING! WARNING! {{list.warning}}</span> -->
-      </food-List-Items>
+        <food-List-Items myTitle="{{list.itemName}}" items="{{list.items}}">
+        </food-List-Items>
 
     </div>
 

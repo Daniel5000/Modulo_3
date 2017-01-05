@@ -9,14 +9,14 @@ angular.module('MenuCategoriesApp', [])
 
 function FoodListItemsDirective() {
    var ddo = {
-     templateUrl:'foodListItemsDirective.html',
-     scope: {
-     items:'@',
-     itemName:'@'
-     },
-    controller: FoodListItemsDirectiveController,
-    controllerAs: 'list',
-    bindToController: true
+     templateUrl:'foodListItemsDirective.html'//,
+    //  scope: {
+    //  items:'@',
+    //  itemName:'@'
+    //  },
+    // controller: FoodListItemsDirectiveController,
+    // controllerAs: 'list',
+    // bindToController: true
   };
 
   return ddo;
@@ -30,11 +30,12 @@ function FoodListItemsDirectiveController() {
 MenuCategoriesController.$inject = ['$filter','MenuCategoriesService'];
 function MenuCategoriesController($filter,MenuCategoriesService) {
   var menu = this;
-  var itemName='esd';
+  var itemName='';
 
   menu.getMenuCategories=function(Palabra){
     var promise = MenuCategoriesService.getMenuCategories();
       promise.then(function (response) {
+        console.log(response.data);
         menu.categories= $filter('filter')(response.data, Palabra);
       })
       .catch(function (error) {
@@ -45,13 +46,21 @@ function MenuCategoriesController($filter,MenuCategoriesService) {
 
   menu.logMenuItems = function (shortname) {
     var promise = MenuCategoriesService.getMenuForCategory(shortname);
-    menu.items=promise;
+
     promise.then(function (response) {
+    menu.items=response.data.menu_items;
       console.log(response.data);
     })
     .catch(function (error) {
       console.log(error);
     })
+  };
+
+  menu.removeItem = function (itemIndex) {
+    // console.log("'this' is: ", this);
+    // this.lastRemoved = "Last item removed was " + this.items[itemIndex].name;
+    menu.categories.splice(itemIndex,1);
+    // this.title = origTitle + " (" + list.items.length + " items )";
   };
 
 }
